@@ -63,7 +63,7 @@ const utils = {
   },
 
   randomAngle() {
-    return parseInt(Math.random() * 360, 10)
+    return Math.PI / 180 * parseInt(Math.random() * 360, 10)
   }
 }
 
@@ -180,19 +180,21 @@ class musicCircle {
     }
 
     this.rippeLines = this.rippeLines.map((line, index) => {
-      const point = this.rippePoints[index]
+
       line.r += 1
       line.color[3] = (this.center - line.r) / (this.center - this.radius)
-      line.gapAngle = Math.PI / 180 * point.angle
-
+      line.gapAngle = Math.asin(this.params.pointRadius / 2 / line.r) * 2
+      line.startAngle = this.rippePoints[index]['angle'] + line.gapAngle
       return line
     })
 
     this.rippePoints = this.rippeLines.map((line, index) => {
       const point = this.rippePoints[index]
-      point.x = this.center - line.r * Math.cos(point.angle)
-      point.y = this.center - line.r * Math.sin(point.angle)
+
+      point.x = this.center + line.r * Math.cos(point.angle)
+      point.y = this.center + line.r * Math.sin(point.angle)
       point.color = line.color
+
       return point
     })
 
@@ -204,14 +206,11 @@ class musicCircle {
 
     const ctx = this.ctx
     this.rippeLines.forEach((line, index) => {
-      const gapAngle = Math.acos(Math.cos(this.params.pointRadius / line.r))
-      console.log('line.gapAngle',line.gapAngle)
+
       ctx.beginPath()
-      ctx.arc(this.center, this.center, line.r, line.gapAngle, 2 * Math.PI )
-      // ctx.closePath()
+      ctx.arc(this.center, this.center, line.r, line.startAngle, line.startAngle + 2 * Math.PI - line.gapAngle * 2)
       ctx.strokeStyle = `rgba(${line.color.join(',')})`
       ctx.lineWidth = this.params.rippeWidth
-      console.log('l', `rgba(${line.color.join(',')})`)
       ctx.stroke()
     })
   }
@@ -224,7 +223,6 @@ class musicCircle {
       ctx.closePath()
       ctx.fillStyle = `rgba(${point.color.join(',')})`
       ctx.fill()
-      console.log('p', `rgba(${point.color.join(',')})`)
     })
   }
 
@@ -242,7 +240,7 @@ class musicCircle {
 
     this.rate += 1
 
-    // requestAnimationFrame(this.animate.bind(this))
+    requestAnimationFrame(this.animate.bind(this))
   }
 }
 
