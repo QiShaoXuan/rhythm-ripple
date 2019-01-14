@@ -2,9 +2,10 @@
 <html lang="zh-cmn-Hans">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="icon" href="https://qishaoxuan.github.io/animate_resume_ts/images/favicon.png">
+
+  <title>RhythmDisk Demo</title>
 </head>
 <style>
   * {
@@ -35,5 +36,11 @@
 <body>
 <div id="canvas-container"></div>
 </body>
-<script src="./rhythmDisk.js"></script>
+<script src="./dist/rhythmDisk.js"></script>
+<script>
+
+  const rd = new RhythmDisk('#canvas-container')
+  rd.animate()
+
+</script>
 </html>

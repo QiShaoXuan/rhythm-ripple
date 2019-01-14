@@ -1,73 +1,6 @@
-const utils = {
-  colorHex(color) {
-    var that = color
-    //十六进制颜色值的正则表达式
-    var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
-    // 如果是rgb颜色表示
-    if (/^(rgb|RGB)/.test(that)) {
-      var aColor = that.replace(/(?:\(|\)|rgb|RGB)*/g, "").split(",")
-      var strHex = "#"
-      for (var i = 0; i < aColor.length; i++) {
-        var hex = Number(aColor[i]).toString(16)
-        if (hex.length < 2) {
-          hex = '0' + hex
-        }
-        strHex += hex
-      }
-      if (strHex.length !== 7) {
-        strHex = that
-      }
-      return strHex
-    } else if (reg.test(that)) {
-      ;
-      var aNum = that.replace(/#/, "").split("")
-      if (aNum.length === 6) {
-        return that
-      } else if (aNum.length === 3) {
-        var numHex = "#"
-        for (var i = 0; i < aNum.length; i += 1) {
-          numHex += (aNum[i] + aNum[i])
-        }
-        return numHex
-      }
-    }
-    return that
-  },
+import utils from './utils'
 
-  colorRgb(color) {
-    var sColor = color.toLowerCase()
-    //十六进制颜色值的正则表达式
-    var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
-    // 如果是16进制颜色
-    if (sColor && reg.test(sColor)) {
-      if (sColor.length === 4) {
-        var sColorNew = "#"
-        for (var i = 1; i < 4; i += 1) {
-          sColorNew += sColor.slice(i, i + 1).concat(sColor.slice(i, i + 1))
-        }
-        sColor = sColorNew
-      }
-      //处理六位的颜色值
-      var sColorChange = []
-      for (var i = 1; i < 7; i += 2) {
-        sColorChange.push(parseInt("0x" + sColor.slice(i, i + 2)))
-      }
-      // return "RGB(" + sColorChange.join(",") + ")"
-      return sColorChange
-    }
-    return sColor
-  },
-
-  getRgbColor(color) {
-    return this.colorRgb(this.colorHex(color))
-  },
-
-  randomAngle() {
-    return Math.PI / 180 * parseInt(Math.random() * 360, 10)
-  }
-}
-
-class musicCircle {
+class RhythmDisk {
   constructor(container, params = {
     size: 500,
     radius: 100,
@@ -93,8 +26,6 @@ class musicCircle {
     this.interval = Math.floor(this.params.interval / 16.7)
     this.rippeLines = []
     this.rippePoints = []
-
-    this.rippeLineColor = utils.getRgbColor(this.params.rippeColor)
 
     this.init()
   }
@@ -129,17 +60,9 @@ class musicCircle {
       'margin': 'auto'
     }
 
-    this.addStyles(this.container, containerStyle)
-    this.addStyles(this.canvas, canvasStyle)
-    this.addStyles(this.bg, bgStyle)
-  }
-
-  addStyles(dom, styles) {
-    if (dom) {
-      for (let key in styles) {
-        dom['style'][key] = styles[key]
-      }
-    }
+    utils.addStyles(this.container, containerStyle)
+    utils.addStyles(this.canvas, canvasStyle)
+    utils.addStyles(this.bg, bgStyle)
   }
 
   strokeCenterCircle() {
@@ -185,6 +108,7 @@ class musicCircle {
       line.color[3] = (this.center - line.r) / (this.center - this.radius)
       line.gapAngle = Math.asin(this.params.pointRadius / 2 / line.r) * 2
       line.startAngle = this.rippePoints[index]['angle'] + line.gapAngle
+
       return line
     })
 
@@ -244,10 +168,7 @@ class musicCircle {
   }
 }
 
-const m = new musicCircle('#canvas-container')
-
-
-m.animate()
+window.RhythmDisk = RhythmDisk
 
 
 

@@ -1,0 +1,32 @@
+{
+  "name": "rhythm-disk",
+  "version": "1.0.0",
+  "description": "https://qishaoxuan.github.io/rhythm-disk/",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QiShaoXuan/rhythm-disk.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/QiShaoXuan/rhythm-disk/issues"
+  },
+  "homepage": "https://github.com/QiShaoXuan/rhythm-disk#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015": "^6.24.1",
+    "babelify": "^8.0.0",
+    "browser-sync": "^2.26.3",
+    "browserify": "^16.2.3",
+    "gulp": "^3.9.1",
+    "gulp-browserify": "^0.5.1",
+    "gulp-uglify": "^3.0.1",
+    "gulp-uglify-es": "^1.0.4",
+    "vinyl-source-stream": "^2.0.0"
+  },
+  "dependencies": {}
+}
