@@ -24,8 +24,6 @@
     "browserify": "^16.2.3",
     "gulp": "^3.9.1",
     "gulp-browserify": "^0.5.1",
-    "gulp-uglify": "^3.0.1",
-    "gulp-uglify-es": "^1.0.4",
     "vinyl-source-stream": "^2.0.0"
   },
   "dependencies": {}

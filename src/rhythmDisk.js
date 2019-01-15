@@ -1,24 +1,26 @@
 import utils from './utils'
 
 class RhythmDisk {
-  constructor(container, params = {
-    size: 500,
-    radius: 100,
-    interval: 1000,
-    centerColor: '#009f9d',
-    centerBg: './Qi.png',
-    borderWidth: 5,
-    borderColor: '#aaa',
-    rippeWidth: 4,
-    rippeColor: '#fff',
-    pointRadius: 8,
-    rotateAngle: .3,
-  }) {
+  constructor(container, params = {}) {
+    const originParams = {
+      size: 500,
+      radius: 100,
+      interval: 1000,
+      centerColor: '#ddd',
+      centerBg: '',
+      borderWidth: 5,
+      borderColor: '#aaa',
+      rippeWidth: 4,
+      rippeColor: '#fff',
+      pointRadius: 8,
+      rotateAngle: .3,
+    }
+
     this.container = document.querySelector(container)
 
-    this.params = params
+    this.params = Object.assign(originParams,params)
 
-    this.radius = params.radius < 1 ? this.params.size * params.radius : params.radius
+    this.radius = this.params.radius < 1 ? this.params.size * this.params.radius : this.params.radius
 
     this.center = this.params.size / 2
 

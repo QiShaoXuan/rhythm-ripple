@@ -152,7 +152,7 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/base64-js/index.js","/node_modules/base64-js")
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/_buffer@5.2.1@buffer/node_modules/base64-js/index.js","/node_modules/_buffer@5.2.1@buffer/node_modules/base64-js")
 },{"_process":4,"buffer":2,"timers":5}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,setImmediate,clearImmediate,__filename,__dirname){
 /*!
@@ -1933,7 +1933,7 @@ function numberIsNaN (obj) {
   return obj !== obj // eslint-disable-line no-self-compare
 }
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/buffer/index.js","/node_modules/buffer")
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/_buffer@5.2.1@buffer/index.js","/node_modules/_buffer@5.2.1@buffer")
 },{"_process":4,"base64-js":1,"buffer":2,"ieee754":3,"timers":5}],3:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,setImmediate,clearImmediate,__filename,__dirname){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -2021,7 +2021,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/ieee754/index.js","/node_modules/ieee754")
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/_buffer@5.2.1@buffer/node_modules/ieee754/index.js","/node_modules/_buffer@5.2.1@buffer/node_modules/ieee754")
 },{"_process":4,"buffer":2,"timers":5}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,setImmediate,clearImmediate,__filename,__dirname){
 // shim for using process in browser
@@ -2209,7 +2209,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/process/browser.js","/node_modules/process")
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/_process@0.11.10@process/browser.js","/node_modules/_process@0.11.10@process")
 },{"_process":4,"buffer":2,"timers":5}],5:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,setImmediate,clearImmediate,__filename,__dirname){
 var nextTick = require('process/browser.js').nextTick;
@@ -2288,7 +2288,7 @@ exports.setImmediate = typeof setImmediate === "function" ? setImmediate : funct
 exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
   delete immediateIds[id];
 };
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/timers-browserify/main.js","/node_modules/timers-browserify")
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/_timers-browserify@1.4.2@timers-browserify/main.js","/node_modules/_timers-browserify@1.4.2@timers-browserify")
 },{"_process":4,"buffer":2,"process/browser.js":4,"timers":5}],6:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,setImmediate,clearImmediate,__filename,__dirname){
 'use strict';
@@ -2305,12 +2305,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var RhythmDisk = function () {
   function RhythmDisk(container) {
-    var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
+    var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    _classCallCheck(this, RhythmDisk);
+
+    var originParams = {
       size: 500,
       radius: 100,
       interval: 1000,
-      centerColor: '#009f9d',
-      centerBg: './Qi.png',
+      centerColor: '#ddd',
+      centerBg: '',
       borderWidth: 5,
       borderColor: '#aaa',
       rippeWidth: 4,
@@ -2319,13 +2323,11 @@ var RhythmDisk = function () {
       rotateAngle: .3
     };
 
-    _classCallCheck(this, RhythmDisk);
-
     this.container = document.querySelector(container);
 
-    this.params = params;
+    this.params = Object.assign(originParams, params);
 
-    this.radius = params.radius < 1 ? this.params.size * params.radius : params.radius;
+    this.radius = this.params.radius < 1 ? this.params.size * this.params.radius : this.params.radius;
 
     this.center = this.params.size / 2;
 
