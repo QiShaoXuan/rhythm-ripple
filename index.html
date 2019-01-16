@@ -66,15 +66,18 @@
     z-index: 1000;
     background: rgba(0, 0, 0, .8);
   }
-  .load-container p{
-    color:#fff;
+
+  .load-container p {
+    color: #fff;
     font-size: 16px;
     position: absolute;
-    left:0;right:0;
-    top:30px;
-    margin:auto;
+    left: 0;
+    right: 0;
+    top: 30px;
+    margin: auto;
     text-align: center;
   }
+
   .load-container .container {
     width: 50px;
     height: 60px;
@@ -168,19 +171,17 @@
     loading.style.display = 'none'
   })
 
-  document.body.addEventListener('click',function () {
+  document.body.addEventListener('click', function () {
     audio.play()
-  },{once:true})
+  }, {once: true})
 
-  if (detectDeviceType() === 'Mobile') {
-    const rd = new RhythmDisk('#canvas-container', '#audio', {
-      size: window.innerWidth - 30,
-      radius: .25,
-      rippeWidth: 2,
-      pointRadius: 4,
-    })
-  } else {
-    const rd = new RhythmDisk('#canvas-container', '#audio')
+  const mobileOption = {
+    size: window.innerWidth - 30,
+    radius: .25,
+    rippeWidth: 2,
+    pointRadius: 4,
   }
+
+  const rd = new RhythmDisk('#canvas-container', '#audio', detectDeviceType() === 'Mobile' ? mobileOption : {})
 </script>
 </html>
