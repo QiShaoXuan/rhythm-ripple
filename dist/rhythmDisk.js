@@ -152,7 +152,7 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/_buffer@5.2.1@buffer/node_modules/base64-js/index.js","/node_modules/_buffer@5.2.1@buffer/node_modules/base64-js")
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/base64-js/index.js","/node_modules/base64-js")
 },{"_process":4,"buffer":2,"timers":5}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,setImmediate,clearImmediate,__filename,__dirname){
 /*!
@@ -1933,7 +1933,7 @@ function numberIsNaN (obj) {
   return obj !== obj // eslint-disable-line no-self-compare
 }
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/_buffer@5.2.1@buffer/index.js","/node_modules/_buffer@5.2.1@buffer")
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/buffer/index.js","/node_modules/buffer")
 },{"_process":4,"base64-js":1,"buffer":2,"ieee754":3,"timers":5}],3:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,setImmediate,clearImmediate,__filename,__dirname){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -2021,7 +2021,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/_buffer@5.2.1@buffer/node_modules/ieee754/index.js","/node_modules/_buffer@5.2.1@buffer/node_modules/ieee754")
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/ieee754/index.js","/node_modules/ieee754")
 },{"_process":4,"buffer":2,"timers":5}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,setImmediate,clearImmediate,__filename,__dirname){
 // shim for using process in browser
@@ -2209,7 +2209,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/_process@0.11.10@process/browser.js","/node_modules/_process@0.11.10@process")
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/process/browser.js","/node_modules/process")
 },{"_process":4,"buffer":2,"timers":5}],5:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,setImmediate,clearImmediate,__filename,__dirname){
 var nextTick = require('process/browser.js').nextTick;
@@ -2288,7 +2288,7 @@ exports.setImmediate = typeof setImmediate === "function" ? setImmediate : funct
 exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
   delete immediateIds[id];
 };
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/_timers-browserify@1.4.2@timers-browserify/main.js","/node_modules/_timers-browserify@1.4.2@timers-browserify")
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/timers-browserify/main.js","/node_modules/timers-browserify")
 },{"_process":4,"buffer":2,"process/browser.js":4,"timers":5}],6:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,setImmediate,clearImmediate,__filename,__dirname){
 'use strict';
@@ -2301,6 +2301,8 @@ var _utils2 = _interopRequireDefault(_utils);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var RhythmDisk = function () {
@@ -2310,17 +2312,16 @@ var RhythmDisk = function () {
     _classCallCheck(this, RhythmDisk);
 
     var originParams = {
-      size: 500,
-      radius: 100,
-      interval: 1000,
-      centerColor: '#ddd',
-      centerBg: '',
-      borderWidth: 5,
-      borderColor: '#aaa',
-      rippeWidth: 4,
-      rippeColor: '#fff',
-      pointRadius: 8,
-      rotateAngle: .3
+      size: 500, // 画布 canvas 的尺寸
+      radius: 100, // 封面图，中心圆的半径，小于零则为容器的百分比
+      minInterval: 500, // 涟漪出现的最小频率（毫秒）
+      centerColor: '#ddd', // 封面图位置的颜色（在没有封面图时显示）
+      borderWidth: 5, //  封面图边框的宽度
+      borderColor: '#aaa', // 封面图边框的颜色
+      rippeWidth: 4, // 涟漪圆环的宽度
+      rippeColor: '#fff', // 涟漪颜色
+      pointRadius: 8, // 涟漪圆点的半径
+      rotateAngle: .3 // 封面图每帧旋转的角度
     };
 
     this.container = document.querySelector(container);
@@ -2329,29 +2330,32 @@ var RhythmDisk = function () {
 
     this.params = Object.assign(originParams, params);
 
+    this.cover = undefined; // 封面图，应当存在 audio 标签的 cover 属性中
+
     this.radius = this.params.radius < 1 ? this.params.size * this.params.radius : this.params.radius;
 
-    this.center = this.params.size / 2;
+    this.center = this.params.size / 2; // 中心点
 
-    this.rate = 0;
-    this.interval = Math.floor(this.params.interval / 16.7);
-    this.rippeLines = [];
-    this.rippePoints = [];
+    this.rate = 0; // 记录播放的帧数
+    this.frame = null; // 帧动画，用于取消
+    this.rippeLines = []; // 存储涟漪圆环的半径
+    this.rippePoints = []; // 存储涟漪点距离中心点的距离
 
     this.audioContext = null;
     this.analyser = null;
     this.source = null;
+    this.lastRippe = 0;
 
-    this.initCanvas();
     this.initAudio();
+    this.initCanvas();
   }
 
   _createClass(RhythmDisk, [{
     key: 'initCanvas',
     value: function initCanvas() {
-      this.container.innerHTML = '<canvas width="' + this.params.size + '" height="' + this.params.size + '"></canvas>' + (this.params.centerBg ? '<img src="' + this.params.centerBg + '" alt="">' : '');
+      this.container.innerHTML = '<canvas width="' + this.params.size + '" height="' + this.params.size + '"></canvas>' + (this.cover ? '<img src="' + this.cover + '" alt="">' : '');
 
-      this.bg = this.container.querySelector('img');
+      this.cover = this.container.querySelector('img');
       this.canvas = this.container.querySelector('canvas');
       this.ctx = this.canvas.getContext('2d');
 
@@ -2365,7 +2369,7 @@ var RhythmDisk = function () {
         'display': 'block',
         'background': 'transparent'
       };
-      var bgStyle = {
+      var coverStyle = {
         'width': this.radius * 2 + 'px',
         'height': this.radius * 2 + 'px',
         'border-radius': '50%',
@@ -2380,7 +2384,7 @@ var RhythmDisk = function () {
 
       _utils2.default.addStyles(this.container, containerStyle);
       _utils2.default.addStyles(this.canvas, canvasStyle);
-      _utils2.default.addStyles(this.bg, bgStyle);
+      _utils2.default.addStyles(this.cover, coverStyle);
 
       this.strokeBorder();
     }
@@ -2388,8 +2392,22 @@ var RhythmDisk = function () {
     key: 'initAudio',
     value: function initAudio() {
       var that = this;
-      this.audio.addEventListener('play', function () {
+
+      this.cover = this.audio.getAttribute('cover');
+
+      this.audio.addEventListener('playing', function () {
         that.animate();
+      });
+
+      this.audio.addEventListener('pause', function () {
+        that.cancelAnimate();
+      });
+
+      this.audio.addEventListener('ended', function () {
+        that.cancelAnimate();
+        that.strokeCenterCircle();
+        that.strokeBorder();
+        that.cover.style.transform = 'rotate(0deg)';
       });
     }
   }, {
@@ -2402,11 +2420,9 @@ var RhythmDisk = function () {
       this.source.connect(this.analyser);
       this.analyser.connect(this.audioContext.destination);
 
-      // set up the data
-      this.analyser.fftSize = 1024;
+      this.analyser.fftSize = 32;
       this.bufferLength = this.analyser.fftSize;
       this.dataArray = new Float32Array(this.bufferLength);
-      this.frame = 0;
     }
   }, {
     key: 'strokeCenterCircle',
@@ -2439,8 +2455,9 @@ var RhythmDisk = function () {
         this.rippePoints.shift();
       }
 
-      if (this.rate % this.interval === 0) {
+      this.analyser.getFloatTimeDomainData(this.dataArray);
 
+      if (this.rate - this.lastRippe > this.params.minInterval && Math.max.apply(Math, _toConsumableArray(this.dataArray)) > .3) {
         this.rippeLines.push({
           r: this.radius + this.params.borderWidth + this.params.rippeWidth / 2,
           color: _utils2.default.getRgbColor(this.params.rippeColor)
@@ -2449,6 +2466,8 @@ var RhythmDisk = function () {
         this.rippePoints.push({
           angle: _utils2.default.randomAngle()
         });
+
+        this.lastRippe = this.rate;
       }
 
       this.rippeLines = this.rippeLines.map(function (line, index) {
@@ -2507,23 +2526,31 @@ var RhythmDisk = function () {
     key: 'animate',
     value: function animate() {
       this.ctx.clearRect(0, 0, this.params.size, this.params.size);
-      this.strokeRippe();
-
-      this.strokeCenterCircle();
-      this.strokeBorder();
-
-      if (this.params.centerBg) {
-        this.rotate += this.params.rotateAngle;
-        this.bg.style.transform = 'rotate(' + this.rotate + 'deg)';
-      }
 
       if (!this.audioContext) {
         this.initAtx();
       }
 
-      this.rate += 1;
+      this.strokeRippe();
+      this.strokeCenterCircle();
+      this.strokeBorder();
 
-      requestAnimationFrame(this.animate.bind(this));
+      if (this.cover) {
+        this.rotate += this.params.rotateAngle;
+        this.cover.style.transform = 'rotate(' + this.rotate + 'deg)';
+      }
+
+      this.rate += 16.7;
+
+      var that = this;
+      this.frame = requestAnimationFrame(function () {
+        that.animate();
+      });
+    }
+  }, {
+    key: 'cancelAnimate',
+    value: function cancelAnimate() {
+      cancelAnimationFrame(this.frame);
     }
   }]);
 

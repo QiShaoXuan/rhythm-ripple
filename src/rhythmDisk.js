@@ -3,46 +3,48 @@ import utils from './utils'
 class RhythmDisk {
   constructor(container, audioElement, params = {}) {
     const originParams = {
-      size: 500,
-      radius: 100,
-      interval: 1000,
-      centerColor: '#ddd',
-      centerBg: '',
-      borderWidth: 5,
-      borderColor: '#aaa',
-      rippeWidth: 4,
-      rippeColor: '#fff',
-      pointRadius: 8,
-      rotateAngle: .3,
+      size: 500,  // 画布 canvas 的尺寸
+      radius: 100,  // 封面图，中心圆的半径，小于零则为容器的百分比
+      minInterval: 500,  // 涟漪出现的最小频率（毫秒）
+      centerColor: '#ddd',  // 封面图位置的颜色（在没有封面图时显示）
+      borderWidth: 5,  //  封面图边框的宽度
+      borderColor: '#aaa',  // 封面图边框的颜色
+      rippeWidth: 4,  // 涟漪圆环的宽度
+      rippeColor: '#fff',  // 涟漪颜色
+      pointRadius: 8,  // 涟漪圆点的半径
+      rotateAngle: .3, // 封面图每帧旋转的角度
     }
 
     this.container = document.querySelector(container)
 
-    this.audio = typeof audioElement == "string"?document.querySelector(audioElement):audioElement
+    this.audio = typeof audioElement == "string" ? document.querySelector(audioElement) : audioElement
 
     this.params = Object.assign(originParams, params)
 
+    this.cover = undefined  // 封面图，应当存在 audio 标签的 cover 属性中
+
     this.radius = this.params.radius < 1 ? this.params.size * this.params.radius : this.params.radius
 
-    this.center = this.params.size / 2
+    this.center = this.params.size / 2  // 中心点
 
-    this.rate = 0
-    this.interval = Math.floor(this.params.interval / 16.7)
-    this.rippeLines = []
-    this.rippePoints = []
+    this.rate = 0  // 记录播放的帧数
+    this.frame = null  // 帧动画，用于取消
+    this.rippeLines = []  // 存储涟漪圆环的半径
+    this.rippePoints = []  // 存储涟漪点距离中心点的距离
 
     this.audioContext = null
     this.analyser = null
     this.source = null
+    this.lastRippe = 0
 
-    this.initCanvas()
     this.initAudio()
+    this.initCanvas()
   }
 
   initCanvas() {
-    this.container.innerHTML = `<canvas width="${this.params.size}" height="${this.params.size}"></canvas>${this.params.centerBg ? `<img src="${this.params.centerBg}" alt="">` : ''}`
+    this.container.innerHTML = `<canvas width="${this.params.size}" height="${this.params.size}"></canvas>${this.cover ? `<img src="${this.cover}" alt="">` : ''}`
 
-    this.bg = this.container.querySelector('img')
+    this.cover = this.container.querySelector('img')
     this.canvas = this.container.querySelector('canvas')
     this.ctx = this.canvas.getContext('2d')
 
@@ -56,7 +58,7 @@ class RhythmDisk {
       'display': 'block',
       'background': 'transparent',
     }
-    const bgStyle = {
+    const coverStyle = {
       'width': `${this.radius * 2}px`,
       'height': `${this.radius * 2}px`,
       'border-radius': '50%',
@@ -71,31 +73,43 @@ class RhythmDisk {
 
     utils.addStyles(this.container, containerStyle)
     utils.addStyles(this.canvas, canvasStyle)
-    utils.addStyles(this.bg, bgStyle)
+    utils.addStyles(this.cover, coverStyle)
 
     this.strokeBorder()
   }
 
-  initAudio(){
+  initAudio() {
     const that = this
-    this.audio.addEventListener('play',function () {
+
+    this.cover = this.audio.getAttribute('cover')
+
+    this.audio.addEventListener('playing', function () {
       that.animate()
+    })
+
+    this.audio.addEventListener('pause',function () {
+      that.cancelAnimate()
+    })
+
+    this.audio.addEventListener('ended',function () {
+      that.cancelAnimate()
+      that.strokeCenterCircle()
+      that.strokeBorder()
+      that.cover.style.transform = 'rotate(0deg)'
     })
   }
 
-  initAtx(){
+  initAtx() {
     this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
-    this.analyser = this.audioContext.createAnalyser();
-    this.source = this.audioContext.createMediaElementSource(this.audio);
-    this.source.connect(this.analyser);
-    this.analyser.connect(this.audioContext.destination);
+    this.analyser = this.audioContext.createAnalyser()
+    this.source = this.audioContext.createMediaElementSource(this.audio)
+    this.source.connect(this.analyser)
+    this.analyser.connect(this.audioContext.destination)
 
-    // set up the data
-    this.analyser.fftSize = 1024;
-    this.bufferLength = this.analyser.fftSize;
-    this.dataArray = new Float32Array(this.bufferLength);
-    this.frame = 0;
+    this.analyser.fftSize = 32
+    this.bufferLength = this.analyser.fftSize
+    this.dataArray = new Float32Array(this.bufferLength)
   }
 
   strokeCenterCircle() {
@@ -123,8 +137,9 @@ class RhythmDisk {
       this.rippePoints.shift()
     }
 
-    if (this.rate % this.interval === 0) {
+    this.analyser.getFloatTimeDomainData(this.dataArray)
 
+    if (this.rate - this.lastRippe > this.params.minInterval && Math.max(...this.dataArray) > .3) {
       this.rippeLines.push({
         r: this.radius + this.params.borderWidth + this.params.rippeWidth / 2,
         color: utils.getRgbColor(this.params.rippeColor)
@@ -133,7 +148,10 @@ class RhythmDisk {
       this.rippePoints.push({
         angle: utils.randomAngle()
       })
+
+      this.lastRippe = this.rate
     }
+
 
     this.rippeLines = this.rippeLines.map((line, index) => {
 
@@ -184,29 +202,33 @@ class RhythmDisk {
 
   animate() {
     this.ctx.clearRect(0, 0, this.params.size, this.params.size)
-    this.strokeRippe()
 
-    this.strokeCenterCircle()
-    this.strokeBorder()
-
-    if (this.params.centerBg) {
-      this.rotate += this.params.rotateAngle
-      this.bg.style.transform = `rotate(${this.rotate}deg)`
-    }
-
-    if(!this.audioContext){
+    if (!this.audioContext) {
       this.initAtx()
     }
 
-    this.rate += 1
+    this.strokeRippe()
+    this.strokeCenterCircle()
+    this.strokeBorder()
 
-    requestAnimationFrame(this.animate.bind(this))
+    if (this.cover) {
+      this.rotate += this.params.rotateAngle
+      this.cover.style.transform = `rotate(${this.rotate}deg)`
+    }
+
+    this.rate += 16.7
+
+    var that = this;
+    this.frame = requestAnimationFrame(function() {
+      that.animate()
+    })
+
+  }
+
+  cancelAnimate(){
+    cancelAnimationFrame(this.frame)
   }
 }
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext
 window.RhythmDisk = RhythmDisk
-
-
-
-

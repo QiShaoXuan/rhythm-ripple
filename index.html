@@ -21,11 +21,6 @@
     height: 100%;
     background: #303133;
   }
-</style>
-<style>
-  canvas {
-    /*border: 1px solid #ddd;*/
-  }
 
   #canvas-container {
     display: flex;
@@ -34,32 +29,143 @@
     height: 100%;
   }
 
-  button {
-    position: absolute;
-    left: 40px;
-    bottom: 40px;
-    z-index: 100;
-  }
-
   audio {
     position: absolute;
     left: 40px;
     top: 40px;
+    z-index: 100;
+  }
+
+  .copyright {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    font-size: 14px;
+    color: #fff;
+  }
+
+  @media screen and (max-width: 767px) {
+    audio {
+      left: 0;
+      right: 0;
+      margin: auto;
+    }
+  }
+</style>
+<style>
+  .load-container {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
     z-index: 1000;
+    background: rgba(0, 0, 0, .8);
+  }
+
+  .load-container .container {
+    width: 50px;
+    height: 60px;
+    text-align: center;
+    font-size: 10px;
+  }
+
+  .load-container .container .boxLoading {
+    background-color: #fff;
+    height: 100%;
+    width: 6px;
+    display: inline-block;
+
+    -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+    animation: stretchdelay 1.2s infinite ease-in-out;
+  }
+
+  .load-container .container .boxLoading2 {
+    -webkit-animation-delay: -1.1s;
+    animation-delay: -1.1s;
+  }
+
+  .load-container .container .boxLoading3 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+  }
+
+  .load-container .container .boxLoading4 {
+    -webkit-animation-delay: -0.9s;
+    animation-delay: -0.9s;
+  }
+
+  .load-container .container .boxLoading5 {
+    -webkit-animation-delay: -0.8s;
+    animation-delay: -0.8s;
+  }
+
+  @-webkit-keyframes stretchdelay {
+    0%, 40%, 100% {
+      -webkit-transform: scaleY(0.4)
+    }
+    20% {
+      -webkit-transform: scaleY(1.0)
+    }
+  }
+
+  @keyframes stretchdelay {
+    0%, 40%, 100% {
+      transform: scaleY(0.4);
+      -webkit-transform: scaleY(0.4);
+    }
+    20% {
+      transform: scaleY(1.0);
+      -webkit-transform: scaleY(1.0);
+    }
   }
 </style>
 <body>
+<div class="load-container">
+  <div class="container">
+    <div class="boxLoading boxLoading1"></div>
+    <div class="boxLoading boxLoading2"></div>
+    <div class="boxLoading boxLoading3"></div>
+    <div class="boxLoading boxLoading4"></div>
+    <div class="boxLoading boxLoading5"></div>
+  </div>
+</div>
+
 <div id="canvas-container"></div>
-<audio src="./asset/music2.mp3" controls id="audio"></audio>
+
+<audio src="./asset/LiquorWhisper.mp3" controls
+  cover='./asset/cover.jpg' id="audio"></audio>
+
+<div class="copyright">Liquor Whisper - 王以太</div>
 </body>
 
 <script src="./dist/rhythmDisk.js"></script>
-
 <script>
 
-  const rd = new RhythmDisk('#canvas-container','#audio', {
-    centerBg: './asset/Qi.png',
-  })
+  function detectDeviceType() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop'
+  }
 
+  const audio = document.querySelector('#audio')
+  const loading = document.querySelector('.load-container')
+
+  audio.addEventListener('loadeddata', function () {
+    loading.style.display = 'none'
+
+    if (detectDeviceType() === 'Mobile') {
+      const rd = new RhythmDisk('#canvas-container', '#audio', {
+        size: window.innerWidth - 30,
+        radius: .25,
+        rippeWidth: 2,
+        pointRadius: 4,
+      })
+    } else {
+      const rd = new RhythmDisk('#canvas-container', '#audio')
+    }
+  })
 </script>
 </html>

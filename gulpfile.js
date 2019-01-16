@@ -7,16 +7,16 @@ const browserSync = require("browser-sync").create()
 gulp.task('scripts', function () {
   return browserify({
     entries: './src/rhythmDisk.js',
-    insertGlobals : true,
-    standalone:'umd'
+    insertGlobals: true,
+    standalone: 'umd'
   })
     .transform(babelify, {
       presets: ["es2015"]
     })
     .bundle()
-    .pipe(source('rhythmDisk.js')) // gives streaming vinyl file object
-
+    .pipe(source('rhythmDisk.js'))
     .pipe(gulp.dest('dist'))
+    .pipe(browserSync.reload({stream: true}))
 })
 
 gulp.task('default', ['scripts'], function () {
