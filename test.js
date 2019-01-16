@@ -1,36 +1,93 @@
-var context = new (window.AudioContext || window.webkitAudioContext)();
-var mediaElement = document.querySelector('audio');
-var source = context.createMediaElementSource(mediaElement);
-var highShelf = context.createBiquadFilter();
-var lowShelf = context.createBiquadFilter();
-var highPass = context.createBiquadFilter();
-var lowPass = context.createBiquadFilter();
+;(function() {
+  'use strict';
 
-source.connect(highShelf);
-highShelf.connect(lowShelf);
-lowShelf.connect(highPass);
-highPass.connect(lowPass);
-lowPass.connect(context.destination);
+  function Visualizer(audio, canvas) {
+    // set up the hooks
+    this.canvas = canvas;
+    this.audio = audio;
+    this.audioContext = null
 
-highShelf.type = "highshelf";
-highShelf.frequency.value = 4700;
-highShelf.gain.value = 50;
+    this.canvasContext = canvas.getContext("2d");
 
-lowShelf.type = "lowshelf";
-lowShelf.frequency.value = 35;
-lowShelf.gain.value = 50;
+    this.WIDTH = canvas.width;
+    this.HEIGHT = canvas.height;
 
-highPass.type = "highpass";
-highPass.frequency.value = 800;
-highPass.Q.value = 0.7;
+    // clear the canvas
+    this.canvasContext.clearRect(0, 0, this.WIDTH, this.HEIGHT);
+    this.canvasContext.fillStyle = 'rgb(200, 200, 200)';
+    this.canvasContext.fillRect(0, 0, this.WIDTH, this.HEIGHT);
+  }
+  Visualizer.prototype.load = function(){
+    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    // set up the analyser
+    // audio -> analyser -> speaker
+    console.log(this)
+    this.analyser = this.audioContext.createAnalyser();
+    this.source = this.audioContext.createMediaElementSource(this.audio);
+    this.source.connect(this.analyser);
+    // let the audio pass through to the speaker
+    this.analyser.connect(this.audioContext.destination);
 
-lowPass.type = "lowpass";
-lowPass.frequency.value = 880;
-lowPass.Q.value = 0.7;
+    // set up the data
+    this.analyser.fftSize = 1024;
+    this.bufferLength = this.analyser.fftSize;
+    this.dataArray = new Float32Array(this.bufferLength);
+    this.frame = 0;
+  }
 
-var ranges = document.querySelectorAll('input[type=range]');
-ranges.forEach(function(range){
-  range.addEventListener('input', function() {
-    window[this.dataset.filter][this.dataset.param].value = this.value;
-  });
-});
+  Visualizer.prototype.render = function(data, len, context, WIDTH, HEIGHT) {
+    // clear the canvas
+    context.fillStyle = 'rgb(70, 70, 70)';
+    context.fillRect(0, 0, WIDTH, HEIGHT);
+
+    // configure the stroke
+    context.lineWIDTH = 2;
+    context.strokeStyle = 'rgb(255, 255, 255)';
+    context.beginPath();
+
+    // draw the waves
+    var x = 0, sliceWIDTH = WIDTH * 1.0 / len;
+    context.moveTo(0, data[0] * HEIGHT/2 + HEIGHT/2);
+    for(var i = 1; i < len; i++) {
+      var y = HEIGHT/2 + data[i] * HEIGHT/2;
+      context.lineTo(x, y);
+      x += sliceWIDTH;
+    }
+    context.lineTo(WIDTH, data[len-1] * HEIGHT/2 + HEIGHT/2);
+
+    // show it
+    context.stroke();
+  };
+
+  Visualizer.prototype.draw = function() {
+    if(!this.audioContext){
+      this.load()
+    }
+    if (!this.audio.paused) {
+      // update the data
+      this.analyser.getFloatTimeDomainData(this.dataArray);
+      // draw in the canvas
+      this.render(this.dataArray, this.bufferLength,
+        this.canvasContext, this.WIDTH, this.HEIGHT);
+    }
+
+    var self = this;  // requestAnimationFrame binds global this
+    this.frame = requestAnimationFrame(function() {
+      self.draw();
+    });
+  };
+
+  function init() {
+    var audioNode = document.getElementById('audio-source');
+    var canvasNode = document.getElementById('waves');
+
+    var visualizer = new Visualizer(audioNode, canvasNode);
+    audioNode.addEventListener('play',function () {
+      visualizer.draw();
+    })
+    //
+  }
+
+  init();  // kick it off
+
+}());

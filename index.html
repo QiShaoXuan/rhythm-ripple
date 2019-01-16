@@ -50,92 +50,16 @@
 </style>
 <body>
 <div id="canvas-container"></div>
+<audio src="./asset/music2.mp3" controls id="audio"></audio>
 </body>
 
 <script src="./dist/rhythmDisk.js"></script>
 
 <script>
-  const url = './asset/music.mp3'
 
-  const rd = new RhythmDisk('#canvas-container', {
+  const rd = new RhythmDisk('#canvas-container','#audio', {
     centerBg: './asset/Qi.png',
   })
-
-  const body = document.querySelector('body')
-  body.addEventListener('click', function () {
-    console.log('rd.status',rd.status)
-    
-    if(rd.status === 'pause'){
-      rd.play()
-    }else{
-      rd.pause()
-    }
-  })
-
-  // rd.animate()
-
-  rd.load(url, function () {
-    console.log('loaded')
-  })
-</script>
-<script>
-
-  // get(url, function (res) {
-  //   console.log(res)
-  //
-  //   const atx = new AudioContext()
-  //   const arraybuffer = res
-  //
-  //   atx.decodeAudioData(arraybuffer, function (buffer) {
-  //     //创建分析器
-  //     var analyser = atx.createAnalyser();
-  //     const source = atx.createBufferSource();
-  //     //将source与分析器链接
-  //     source.connect(analyser);
-  //     //将分析器与destination链接，这样才能形成到达扬声器的通路
-  //     analyser.connect(atx.destination);
-  //     //将解码后的buffer数据复制给source
-  //     source.buffer = buffer;
-  //     //播放
-  //     // source.start(0);
-  //
-  //
-  //     function drawSpectrum() {
-  //       var canvas = document.getElementById('canvas'),
-  //         cwidth = canvas.width,
-  //         cheight = canvas.height - 2,
-  //         meterWidth = 10,//能量条的宽度
-  //         gap = 2,//能量条的间距
-  //         meterNum = 800 / (10 + 2),//计算当前画布上能画多少条
-  //         ctx = canvas.getContext('2d');
-  //       var capHeight = 2;//
-  //       var array = new Uint8Array(analyser.frequencyBinCount);
-  //       analyser.getByteFrequencyData(array);
-  //       var step = Math.round(array.length / meterNum);//计算从analyser中的采样步长
-  //
-  //       //清理画布
-  //       ctx.clearRect(0, 0, cwidth, cheight);
-  //       //定义一个渐变样式用于画图
-  //       var gradient = ctx.createLinearGradient(0, 0, 0, 300);
-  //       gradient.addColorStop(1, '#0f0');
-  //       gradient.addColorStop(0.5, '#ff0');
-  //       gradient.addColorStop(0, '#f00');
-  //       ctx.fillStyle = gradient;
-  //       //对信源数组进行抽样遍历，画出每个频谱条
-  //       for (var i = 0; i < meterNum; i++) {
-  //         var value = array[i * step];
-  //         ctx.fillRect(i * 12/*频谱条的宽度+条间距*/, cheight - value + capHeight,
-  //           meterWidth, cheight);
-  //       }
-  //       requestAnimationFrame(drawSpectrum)
-  //     }
-  //
-  //     requestAnimationFrame(drawSpectrum)
-  //   }, function (e) {
-  //     console.info('处理出错');
-  //   });
-  // })
-
 
 </script>
 </html>
