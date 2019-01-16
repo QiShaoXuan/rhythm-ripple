@@ -66,7 +66,15 @@
     z-index: 1000;
     background: rgba(0, 0, 0, .8);
   }
-
+  .load-container p{
+    color:#fff;
+    font-size: 16px;
+    position: absolute;
+    left:0;right:0;
+    top:30px;
+    margin:auto;
+    text-align: center;
+  }
   .load-container .container {
     width: 50px;
     height: 60px;
@@ -126,6 +134,7 @@
 </style>
 <body>
 <div class="load-container">
+  <p>click to play music after load</p>
   <div class="container">
     <div class="boxLoading boxLoading1"></div>
     <div class="boxLoading boxLoading2"></div>
@@ -159,9 +168,9 @@
     loading.style.display = 'none'
   })
 
-  loading.addEventListener('click',function(){
+  document.body.addEventListener('click',function () {
     audio.play()
-  })
+  },{once:true})
 
   if (detectDeviceType() === 'Mobile') {
     const rd = new RhythmDisk('#canvas-container', '#audio', {
