@@ -71,6 +71,19 @@ const utils = {
         dom['style'][key] = styles[key]
       }
     }
+  },
+
+  loadSource(url){
+    return new Promise((resolve, reject) => {
+      var request = new XMLHttpRequest();
+      request.open('GET', url, true);
+      request.responseType = 'arraybuffer';
+      request.onload = function () {
+        resolve(request.response)
+      }
+      request.send()
+    })
+
   }
 }
 

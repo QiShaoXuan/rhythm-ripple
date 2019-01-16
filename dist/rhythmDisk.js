@@ -152,7 +152,7 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/_buffer@5.2.1@buffer/node_modules/base64-js/index.js","/node_modules/_buffer@5.2.1@buffer/node_modules/base64-js")
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/base64-js/index.js","/node_modules/base64-js")
 },{"_process":4,"buffer":2,"timers":5}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,setImmediate,clearImmediate,__filename,__dirname){
 /*!
@@ -1933,7 +1933,7 @@ function numberIsNaN (obj) {
   return obj !== obj // eslint-disable-line no-self-compare
 }
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/_buffer@5.2.1@buffer/index.js","/node_modules/_buffer@5.2.1@buffer")
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/buffer/index.js","/node_modules/buffer")
 },{"_process":4,"base64-js":1,"buffer":2,"ieee754":3,"timers":5}],3:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,setImmediate,clearImmediate,__filename,__dirname){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -2021,7 +2021,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/_buffer@5.2.1@buffer/node_modules/ieee754/index.js","/node_modules/_buffer@5.2.1@buffer/node_modules/ieee754")
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/ieee754/index.js","/node_modules/ieee754")
 },{"_process":4,"buffer":2,"timers":5}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,setImmediate,clearImmediate,__filename,__dirname){
 // shim for using process in browser
@@ -2209,7 +2209,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/_process@0.11.10@process/browser.js","/node_modules/_process@0.11.10@process")
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/process/browser.js","/node_modules/process")
 },{"_process":4,"buffer":2,"timers":5}],5:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,setImmediate,clearImmediate,__filename,__dirname){
 var nextTick = require('process/browser.js').nextTick;
@@ -2288,7 +2288,7 @@ exports.setImmediate = typeof setImmediate === "function" ? setImmediate : funct
 exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
   delete immediateIds[id];
 };
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/_timers-browserify@1.4.2@timers-browserify/main.js","/node_modules/_timers-browserify@1.4.2@timers-browserify")
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/node_modules/timers-browserify/main.js","/node_modules/timers-browserify")
 },{"_process":4,"buffer":2,"process/browser.js":4,"timers":5}],6:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,setImmediate,clearImmediate,__filename,__dirname){
 'use strict';
@@ -2336,6 +2336,13 @@ var RhythmDisk = function () {
     this.rippeLines = [];
     this.rippePoints = [];
 
+    this.atx = new AudioContext();
+    this.analyser = null;
+    this.source = null;
+
+    this.status = 'pause';
+    this.isFirst = true;
+
     this.init();
   }
 
@@ -2374,6 +2381,8 @@ var RhythmDisk = function () {
       _utils2.default.addStyles(this.container, containerStyle);
       _utils2.default.addStyles(this.canvas, canvasStyle);
       _utils2.default.addStyles(this.bg, bgStyle);
+
+      this.strokeBorder();
     }
   }, {
     key: 'strokeCenterCircle',
@@ -2488,11 +2497,110 @@ var RhythmDisk = function () {
 
       requestAnimationFrame(this.animate.bind(this));
     }
+  }, {
+    key: 'load',
+    value: function load(url, fn) {
+      var _this4 = this;
+
+      _utils2.default.loadSource(url).then(function (arraybuffer) {
+        var atx = _this4.atx;
+
+        atx.decodeAudioData(arraybuffer, function (buffer) {
+          _this4.analyser = atx.createAnalyser();
+          _this4.source = atx.createBufferSource();
+          //连接分析器
+          _this4.source.connect(_this4.analyser);
+          // 连接扬声器
+          _this4.analyser.connect(atx.destination);
+          //将解码后的buffer数据复制给source
+          _this4.source.buffer = buffer;
+        });
+
+        fn && fn();
+      });
+    }
+  }, {
+    key: 'loadBuffer',
+    value: function loadBuffer() {
+      var canvas = document.getElementById('canvas'),
+          cwidth = canvas.width,
+          cheight = canvas.height - 2,
+          meterWidth = 10,
+          //能量条的宽度
+      gap = 2,
+          //能量条的间距
+      meterNum = 800 / (10 + 2),
+          //计算当前画布上能画多少条
+      ctx = canvas.getContext('2d');
+      var capHeight = 2; //
+      var array = new Uint8Array(analyser.frequencyBinCount);
+      analyser.getByteFrequencyData(array);
+      var step = Math.round(array.length / meterNum); //计算从analyser中的采样步长
+
+      //清理画布
+      ctx.clearRect(0, 0, cwidth, cheight);
+      //定义一个渐变样式用于画图
+      var gradient = ctx.createLinearGradient(0, 0, 0, 300);
+      gradient.addColorStop(1, '#0f0');
+      gradient.addColorStop(0.5, '#ff0');
+      gradient.addColorStop(0, '#f00');
+      ctx.fillStyle = gradient;
+      //对信源数组进行抽样遍历，画出每个频谱条
+      for (var i = 0; i < meterNum; i++) {
+        var value = array[i * step];
+        ctx.fillRect(i * 12 /*频谱条的宽度+条间距*/, cheight - value + capHeight, meterWidth, cheight);
+      }
+      requestAnimationFrame(drawSpectrum);
+    }
+  }, {
+    key: 'play',
+    value: function play() {
+      if (this.status === 'pause') {
+        this.atx.resume();
+        console.log('resume');
+        // this.isFirst ? this.source.start() : this.atx.resume()
+        this.source.start();
+        if (this.isFirst) {
+          this.source.start();
+          console.log('start');
+        } else {}
+      }
+      this.status = 'playing';
+      // this.animate()
+      //
+      // var array = new Uint8Array(this.analyser.frequencyBinCount);
+      // this.analyser.getByteFrequencyData(array);
+      //
+      // requestAnimationFrame(this.play.bind(this))
+    }
+  }, {
+    key: 'pause',
+    value: function pause() {
+      if (this.status === 'playing') {
+        // this.isFirst ? this.source.stop() : this.atx.suspend()
+        // this.isFirst = false
+
+        if (this.isFirst) {
+          this.source.stop();
+          console.log('stop');
+
+          this.isFirst = false;
+        } else {
+
+          console.log('suspend');
+        }
+        this.atx.suspend();
+      }
+      this.status = 'pause';
+
+      // cancelAnimationFrame(this.animate)
+    }
   }]);
 
   return RhythmDisk;
 }();
 
+window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
 window.RhythmDisk = RhythmDisk;
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/src/rhythmDisk.js","/src")
@@ -2572,6 +2680,17 @@ var utils = {
         dom['style'][key] = styles[key];
       }
     }
+  },
+  loadSource: function loadSource(url) {
+    return new Promise(function (resolve, reject) {
+      var request = new XMLHttpRequest();
+      request.open('GET', url, true);
+      request.responseType = 'arraybuffer';
+      request.onload = function () {
+        resolve(request.response);
+      };
+      request.send();
+    });
   }
 };
 

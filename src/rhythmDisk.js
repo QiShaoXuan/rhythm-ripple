@@ -18,7 +18,7 @@ class RhythmDisk {
 
     this.container = document.querySelector(container)
 
-    this.params = Object.assign(originParams,params)
+    this.params = Object.assign(originParams, params)
 
     this.radius = this.params.radius < 1 ? this.params.size * this.params.radius : this.params.radius
 
@@ -28,6 +28,13 @@ class RhythmDisk {
     this.interval = Math.floor(this.params.interval / 16.7)
     this.rippeLines = []
     this.rippePoints = []
+
+    this.atx = new AudioContext()
+    this.analyser = null
+    this.source = null
+
+    this.status = 'pause'
+    this.isFirst = true
 
     this.init()
   }
@@ -65,6 +72,8 @@ class RhythmDisk {
     utils.addStyles(this.container, containerStyle)
     utils.addStyles(this.canvas, canvasStyle)
     utils.addStyles(this.bg, bgStyle)
+
+    this.strokeBorder()
   }
 
   strokeCenterCircle() {
@@ -129,7 +138,6 @@ class RhythmDisk {
   }
 
   strokeRippeLine() {
-
     const ctx = this.ctx
     this.rippeLines.forEach((line, index) => {
 
@@ -168,8 +176,105 @@ class RhythmDisk {
 
     requestAnimationFrame(this.animate.bind(this))
   }
+
+  load(url, fn) {
+    utils.loadSource(url).then((arraybuffer) => {
+      const atx = this.atx
+
+      atx.decodeAudioData(arraybuffer, (buffer) => {
+        this.analyser = atx.createAnalyser()
+        this.source = atx.createBufferSource()
+        //连接分析器
+        this.source.connect(this.analyser);
+        // 连接扬声器
+        this.analyser.connect(atx.destination)
+        //将解码后的buffer数据复制给source
+        this.source.buffer = buffer
+      })
+
+      fn && fn()
+    })
+  }
+
+  loadBuffer() {
+    var canvas = document.getElementById('canvas'),
+      cwidth = canvas.width,
+      cheight = canvas.height - 2,
+      meterWidth = 10,//能量条的宽度
+      gap = 2,//能量条的间距
+      meterNum = 800 / (10 + 2),//计算当前画布上能画多少条
+      ctx = canvas.getContext('2d');
+    var capHeight = 2;//
+    var array = new Uint8Array(analyser.frequencyBinCount);
+    analyser.getByteFrequencyData(array);
+    var step = Math.round(array.length / meterNum);//计算从analyser中的采样步长
+
+    //清理画布
+    ctx.clearRect(0, 0, cwidth, cheight);
+    //定义一个渐变样式用于画图
+    var gradient = ctx.createLinearGradient(0, 0, 0, 300);
+    gradient.addColorStop(1, '#0f0');
+    gradient.addColorStop(0.5, '#ff0');
+    gradient.addColorStop(0, '#f00');
+    ctx.fillStyle = gradient;
+    //对信源数组进行抽样遍历，画出每个频谱条
+    for (var i = 0; i < meterNum; i++) {
+      var value = array[i * step];
+      ctx.fillRect(i * 12/*频谱条的宽度+条间距*/, cheight - value + capHeight,
+        meterWidth, cheight);
+    }
+    requestAnimationFrame(drawSpectrum)
+  }
+
+  play() {
+    if (this.status === 'pause') {
+      this.atx.resume()
+      console.log('resume')
+      // this.isFirst ? this.source.start() : this.atx.resume()
+      this.source.start()
+      if(this.isFirst){
+        this.source.start()
+        console.log('start')
+      }else{
+
+
+      }
+    }
+    this.status = 'playing'
+    // this.animate()
+    //
+    // var array = new Uint8Array(this.analyser.frequencyBinCount);
+    // this.analyser.getByteFrequencyData(array);
+    //
+    // requestAnimationFrame(this.play.bind(this))
+  }
+
+  pause() {
+    if (this.status === 'playing') {
+      // this.isFirst ? this.source.stop() : this.atx.suspend()
+      // this.isFirst = false
+
+      if( this.isFirst){
+        this.source.stop()
+        console.log('stop')
+
+        this.isFirst = false
+      }else{
+
+        console.log('suspend')
+
+      }
+      this.atx.suspend()
+    }
+    this.status = 'pause'
+
+    // cancelAnimationFrame(this.animate)
+  }
+
+
 }
 
+window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext
 window.RhythmDisk = RhythmDisk
 
 
