@@ -157,17 +157,21 @@
 
   audio.addEventListener('loadeddata', function () {
     loading.style.display = 'none'
-
-    if (detectDeviceType() === 'Mobile') {
-      const rd = new RhythmDisk('#canvas-container', '#audio', {
-        size: window.innerWidth - 30,
-        radius: .25,
-        rippeWidth: 2,
-        pointRadius: 4,
-      })
-    } else {
-      const rd = new RhythmDisk('#canvas-container', '#audio')
-    }
   })
+
+  loading.addEventListener('click',function(){
+    audio.play()
+  })
+
+  if (detectDeviceType() === 'Mobile') {
+    const rd = new RhythmDisk('#canvas-container', '#audio', {
+      size: window.innerWidth - 30,
+      radius: .25,
+      rippeWidth: 2,
+      pointRadius: 4,
+    })
+  } else {
+    const rd = new RhythmDisk('#canvas-container', '#audio')
+  }
 </script>
 </html>
