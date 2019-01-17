@@ -13,7 +13,6 @@
   * {
     margin: 0;
     padding: 0;
-    text-decoration: none;
     list-style: none;
   }
 
@@ -38,12 +37,18 @@
 
   .copyright {
     position: absolute;
+    left: 15px;
+    bottom: 15px;
+    font-size: 14px;
+    color: #fff;
+  }
+  .link{
+    position: absolute;
     right: 15px;
     bottom: 15px;
     font-size: 14px;
     color: #fff;
   }
-
   @media screen and (max-width: 767px) {
     audio {
       left: 0;
@@ -137,7 +142,7 @@
 </style>
 <body>
 <div class="load-container">
-  <p>click to play music after load</p>
+  <p>click/tap to play music after load</p>
   <div class="container">
     <div class="boxLoading boxLoading1"></div>
     <div class="boxLoading boxLoading2"></div>
@@ -152,6 +157,7 @@
 <audio src="./asset/LiquorWhisper.mp3" controls
   cover='./asset/cover.jpg' id="audio"></audio>
 
+<a href="https://github.com/QiShaoXuan/rhythm-disk" class="link">GITHUB ==></a>
 <div class="copyright">Liquor Whisper - 王以太</div>
 
 <img src="./asset/cover.jpg" style="display: none" alt="">
