@@ -36,7 +36,7 @@ https://qishaoxuan.github.io/rhythm-ripple/
 
 ```js
 /**
- * RhythmDisk
+ * RhythmRipple
  * @constructor
  * @param {string | HtmlElement} container - 动画容器.
  * @param {string | HtmlElement} audioElement - 关联的 audio 标签
