@@ -155,7 +155,7 @@
 <div id="canvas-container"></div>
 
 <audio src="./asset/LiquorWhisper.mp3" controls
-  preload="auto"
+  preload="auto" autoplay
   cover='./asset/cover.jpg' id="audio"></audio>
 
 <a href="https://github.com/QiShaoXuan/rhythm-disk" class="link">GITHUB ==></a>
@@ -174,7 +174,10 @@
   const audio = document.querySelector('#audio')
   const loading = document.querySelector('.load-container')
 
-  audio.addEventListener('canplay', function () {
+  audio.addEventListener('loadeddata', function () {
+    loading.style.display = 'none'
+  })
+  audio.addEventListener('playing', function () {
     loading.style.display = 'none'
   })
 
