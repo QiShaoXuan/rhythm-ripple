@@ -2,33 +2,37 @@
 
 仿照网易云音乐 app 中音乐播放动画
 
-## view online
+## View online
 
-https://qishaoxuan.github.io/rhythm-disk/
+https://qishaoxuan.github.io/rhythm-ripple/
 
-## 使用
+## Usage
+
+- Download the `rhythmRipple.js` in folder dist
 
 ```html
-<div id="canvas-container"></div>
-<audio src="./asset/LiquorWhisper.mp3" controls cover='./asset/cover.jpg' id="audio"></audio>
+<body>
+  <div id="canvas-container"></div>
+  <audio src="./asset/LiquorWhisper.mp3" controls cover='./asset/cover.jpg' id="audio"></audio>
+</body>
 
 
-<script src="..../rhythmDisk.js"></script>
-```
-
-```js
+<script src="yourpath/rhythmRipple.js"></script>
+<script>
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? true : false
+  
   const mobileOption = {
     size: window.innerWidth - 30,
     radius: .25,
-    rippeWidth: 2,
+    rippleWidth: 2,
     pointRadius: 4,
   }
 
-  const rd = new RhythmDisk('#canvas-container', '#audio', isMobile? mobileOption : {})
+  const rd = new RhythmRipple('#canvas-container', '#audio', isMobile? mobileOption : {})
+</script>
 ```
 
-## 参数
+## Options
 
 ```js
 /**
@@ -44,8 +48,8 @@ https://qishaoxuan.github.io/rhythm-disk/
  * @param {string} [params.centerColor = '#ddd'] - 封面图位置的颜色（在没有封面图时显示）
  * @param {number} [params.borderWidth = 5] -  封面图边框的宽度
  * @param {string} [params.borderColor = '#aaa'] - 封面图边框的颜色
- * @param {number} [params.rippeWidth = 4] - 涟漪圆环的宽度
- * @param {string} [params.rippeColor = '#fff'] - 涟漪颜色
+ * @param {number} [params.rippleWidth = 4] - 涟漪圆环的宽度
+ * @param {string} [params.rippleColor = '#fff'] - 涟漪颜色
  * @param {number} [params.pointRadius = 8] - 涟漪圆点的半径
  * @param {number} [params.rotateAngle = .3] -封面图每帧旋转的角度
  */

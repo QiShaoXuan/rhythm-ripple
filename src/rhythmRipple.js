@@ -13,13 +13,13 @@ import utils from './utils'
  * @param {string} [params.centerColor = '#ddd'] - 封面图位置的颜色（在没有封面图时显示）
  * @param {number} [params.borderWidth = 5] -  封面图边框的宽度
  * @param {string} [params.borderColor = '#aaa'] - 封面图边框的颜色
- * @param {number} [params.rippeWidth = 4] - 涟漪圆环的宽度
- * @param {string} [params.rippeColor = '#fff'] - 涟漪颜色
+ * @param {number} [params.rippleWidth = 4] - 涟漪圆环的宽度
+ * @param {string} [params.rippleColor = '#fff'] - 涟漪颜色
  * @param {number} [params.pointRadius = 8] - 涟漪圆点的半径
  * @param {number} [params.rotateAngle = .3] -封面图每帧旋转的角度
  */
 
-class RhythmDisk {
+class RhythmRipple {
   constructor(container, audioElement, params = {}) {
     const originParams = {
       size: 500,  // 画布 canvas 的尺寸
@@ -28,8 +28,8 @@ class RhythmDisk {
       centerColor: '#ddd',  // 封面图位置的颜色（在没有封面图时显示）
       borderWidth: 5,  //  封面图边框的宽度
       borderColor: '#aaa',  // 封面图边框的颜色
-      rippeWidth: 4,  // 涟漪圆环的宽度
-      rippeColor: '#fff',  // 涟漪颜色
+      rippleWidth: 4,  // 涟漪圆环的宽度
+      rippleColor: '#fff',  // 涟漪颜色
       pointRadius: 8,  // 涟漪圆点的半径
       rotateAngle: .3, // 封面图每帧旋转的角度
     }
@@ -48,13 +48,13 @@ class RhythmDisk {
 
     this.rate = 0  // 记录播放的帧数
     this.frame = null  // 帧动画，用于取消
-    this.rippeLines = []  // 存储涟漪圆环的半径
-    this.rippePoints = []  // 存储涟漪点距离中心点的距离
+    this.rippleLines = []  // 存储涟漪圆环的半径
+    this.ripplePoints = []  // 存储涟漪点距离中心点的距离
 
     this.audioContext = null
     this.analyser = null
     this.source = null
-    this.lastRippe = 0
+    this.lastripple = 0
 
     this.initAudio()
     this.initCanvas()
@@ -150,39 +150,39 @@ class RhythmDisk {
     ctx.stroke()
   }
 
-  strokeRippe() {
-    if (this.rippeLines[0] > this.params.size) {
-      this.rippeLines.shift()
-      this.rippePoints.shift()
+  strokeripple() {
+    if (this.rippleLines[0] > this.params.size) {
+      this.rippleLines.shift()
+      this.ripplePoints.shift()
     }
 
     this.analyser.getFloatTimeDomainData(this.dataArray)
 
-    if (this.rate - this.lastRippe > this.params.minInterval && Math.max(...this.dataArray) > .3) {
-      this.rippeLines.push({
-        r: this.radius + this.params.borderWidth + this.params.rippeWidth / 2,
-        color: utils.getRgbColor(this.params.rippeColor)
+    if (this.rate - this.lastripple > this.params.minInterval && Math.max(...this.dataArray) > .3) {
+      this.rippleLines.push({
+        r: this.radius + this.params.borderWidth + this.params.rippleWidth / 2,
+        color: utils.getRgbColor(this.params.rippleColor)
       })
 
-      this.rippePoints.push({
+      this.ripplePoints.push({
         angle: utils.randomAngle()
       })
 
-      this.lastRippe = this.rate
+      this.lastripple = this.rate
     }
 
-    this.rippeLines = this.rippeLines.map((line, index) => {
+    this.rippleLines = this.rippleLines.map((line, index) => {
 
       line.r += 1
       line.color[3] = (this.center - line.r) / (this.center - this.radius)
       line.gapAngle = Math.asin(this.params.pointRadius / 2 / line.r) * 2
-      line.startAngle = this.rippePoints[index]['angle'] + line.gapAngle
+      line.startAngle = this.ripplePoints[index]['angle'] + line.gapAngle
 
       return line
     })
 
-    this.rippePoints = this.rippeLines.map((line, index) => {
-      const point = this.rippePoints[index]
+    this.ripplePoints = this.rippleLines.map((line, index) => {
+      const point = this.ripplePoints[index]
 
       point.x = this.center + line.r * Math.cos(point.angle)
       point.y = this.center + line.r * Math.sin(point.angle)
@@ -191,25 +191,25 @@ class RhythmDisk {
       return point
     })
 
-    this.strokeRippeLine()
-    this.strokeRippePoint()
+    this.strokerippleLine()
+    this.strokeripplePoint()
   }
 
-  strokeRippeLine() {
+  strokerippleLine() {
     const ctx = this.ctx
-    this.rippeLines.forEach((line, index) => {
+    this.rippleLines.forEach((line, index) => {
 
       ctx.beginPath()
       ctx.arc(this.center, this.center, line.r, line.startAngle, line.startAngle + 2 * Math.PI - line.gapAngle * 2)
       ctx.strokeStyle = `rgba(${line.color.join(',')})`
-      ctx.lineWidth = this.params.rippeWidth
+      ctx.lineWidth = this.params.rippleWidth
       ctx.stroke()
     })
   }
 
-  strokeRippePoint() {
+  strokeripplePoint() {
     const ctx = this.ctx
-    this.rippePoints.forEach((point) => {
+    this.ripplePoints.forEach((point) => {
       ctx.beginPath()
       ctx.arc(point.x, point.y, this.params.pointRadius, 0, 2 * Math.PI)
       ctx.closePath()
@@ -225,7 +225,7 @@ class RhythmDisk {
       this.initAtx()
     }
 
-    this.strokeRippe()
+    this.strokeripple()
     this.strokeCenterCircle()
     this.strokeBorder()
 
@@ -249,6 +249,6 @@ class RhythmDisk {
 }
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext
-window.RhythmDisk = RhythmDisk
+window.RhythmRipple = RhythmRipple
 
-export default RhythmDisk
+export default RhythmRipple

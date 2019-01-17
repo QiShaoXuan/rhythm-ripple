@@ -6,7 +6,7 @@ const browserSync = require("browser-sync").create()
 
 gulp.task('scripts', function () {
   return browserify({
-    entries: './src/rhythmDisk.js',
+    entries: './src/rhythmRipple.js',
     insertGlobals: true,
     standalone: 'umd'
   })
@@ -14,7 +14,7 @@ gulp.task('scripts', function () {
       presets: ["es2015"]
     })
     .bundle()
-    .pipe(source('rhythmDisk.js'))
+    .pipe(source('rhythmRipple.js'))
     .pipe(gulp.dest('dist'))
     .pipe(browserSync.reload({stream: true}))
 })

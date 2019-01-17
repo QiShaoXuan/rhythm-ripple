@@ -163,7 +163,7 @@
 <img src="./asset/cover.jpg" style="display: none" alt="">
 </body>
 
-<script src="./dist/rhythmDisk.js"></script>
+<script src="./dist/rhythmRipple.js"></script>
 <script>
 
   function detectDeviceType() {
@@ -188,6 +188,6 @@
     pointRadius: 4,
   }
 
-  const rd = new RhythmDisk('#canvas-container', '#audio', detectDeviceType() === 'Mobile' ? mobileOption : {})
+  const rd = new RhythmRipple('#canvas-container', '#audio', detectDeviceType() === 'Mobile' ? mobileOption : {})
 </script>
 </html>

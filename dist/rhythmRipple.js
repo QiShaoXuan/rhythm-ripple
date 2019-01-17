@@ -2322,17 +2322,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * @param {string} [params.centerColor = '#ddd'] - 封面图位置的颜色（在没有封面图时显示）
  * @param {number} [params.borderWidth = 5] -  封面图边框的宽度
  * @param {string} [params.borderColor = '#aaa'] - 封面图边框的颜色
- * @param {number} [params.rippeWidth = 4] - 涟漪圆环的宽度
- * @param {string} [params.rippeColor = '#fff'] - 涟漪颜色
+ * @param {number} [params.rippleWidth = 4] - 涟漪圆环的宽度
+ * @param {string} [params.rippleColor = '#fff'] - 涟漪颜色
  * @param {number} [params.pointRadius = 8] - 涟漪圆点的半径
  * @param {number} [params.rotateAngle = .3] -封面图每帧旋转的角度
  */
 
-var RhythmDisk = function () {
-  function RhythmDisk(container, audioElement) {
+var RhythmRipple = function () {
+  function RhythmRipple(container, audioElement) {
     var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-    _classCallCheck(this, RhythmDisk);
+    _classCallCheck(this, RhythmRipple);
 
     var originParams = {
       size: 500, // 画布 canvas 的尺寸
@@ -2341,8 +2341,8 @@ var RhythmDisk = function () {
       centerColor: '#ddd', // 封面图位置的颜色（在没有封面图时显示）
       borderWidth: 5, //  封面图边框的宽度
       borderColor: '#aaa', // 封面图边框的颜色
-      rippeWidth: 4, // 涟漪圆环的宽度
-      rippeColor: '#fff', // 涟漪颜色
+      rippleWidth: 4, // 涟漪圆环的宽度
+      rippleColor: '#fff', // 涟漪颜色
       pointRadius: 8, // 涟漪圆点的半径
       rotateAngle: .3 // 封面图每帧旋转的角度
     };
@@ -2361,19 +2361,19 @@ var RhythmDisk = function () {
 
     this.rate = 0; // 记录播放的帧数
     this.frame = null; // 帧动画，用于取消
-    this.rippeLines = []; // 存储涟漪圆环的半径
-    this.rippePoints = []; // 存储涟漪点距离中心点的距离
+    this.rippleLines = []; // 存储涟漪圆环的半径
+    this.ripplePoints = []; // 存储涟漪点距离中心点的距离
 
     this.audioContext = null;
     this.analyser = null;
     this.source = null;
-    this.lastRippe = 0;
+    this.lastripple = 0;
 
     this.initAudio();
     this.initCanvas();
   }
 
-  _createClass(RhythmDisk, [{
+  _createClass(RhythmRipple, [{
     key: 'initCanvas',
     value: function initCanvas() {
       this.container.innerHTML = '<canvas width="' + this.params.size + '" height="' + this.params.size + '"></canvas>' + (this.cover ? '<img src="' + this.cover + '" alt="">' : '');
@@ -2469,42 +2469,42 @@ var RhythmDisk = function () {
       ctx.stroke();
     }
   }, {
-    key: 'strokeRippe',
-    value: function strokeRippe() {
+    key: 'strokeripple',
+    value: function strokeripple() {
       var _this = this;
 
-      if (this.rippeLines[0] > this.params.size) {
-        this.rippeLines.shift();
-        this.rippePoints.shift();
+      if (this.rippleLines[0] > this.params.size) {
+        this.rippleLines.shift();
+        this.ripplePoints.shift();
       }
 
       this.analyser.getFloatTimeDomainData(this.dataArray);
 
-      if (this.rate - this.lastRippe > this.params.minInterval && Math.max.apply(Math, _toConsumableArray(this.dataArray)) > .3) {
-        this.rippeLines.push({
-          r: this.radius + this.params.borderWidth + this.params.rippeWidth / 2,
-          color: _utils2.default.getRgbColor(this.params.rippeColor)
+      if (this.rate - this.lastripple > this.params.minInterval && Math.max.apply(Math, _toConsumableArray(this.dataArray)) > .3) {
+        this.rippleLines.push({
+          r: this.radius + this.params.borderWidth + this.params.rippleWidth / 2,
+          color: _utils2.default.getRgbColor(this.params.rippleColor)
         });
 
-        this.rippePoints.push({
+        this.ripplePoints.push({
           angle: _utils2.default.randomAngle()
         });
 
-        this.lastRippe = this.rate;
+        this.lastripple = this.rate;
       }
 
-      this.rippeLines = this.rippeLines.map(function (line, index) {
+      this.rippleLines = this.rippleLines.map(function (line, index) {
 
         line.r += 1;
         line.color[3] = (_this.center - line.r) / (_this.center - _this.radius);
         line.gapAngle = Math.asin(_this.params.pointRadius / 2 / line.r) * 2;
-        line.startAngle = _this.rippePoints[index]['angle'] + line.gapAngle;
+        line.startAngle = _this.ripplePoints[index]['angle'] + line.gapAngle;
 
         return line;
       });
 
-      this.rippePoints = this.rippeLines.map(function (line, index) {
-        var point = _this.rippePoints[index];
+      this.ripplePoints = this.rippleLines.map(function (line, index) {
+        var point = _this.ripplePoints[index];
 
         point.x = _this.center + line.r * Math.cos(point.angle);
         point.y = _this.center + line.r * Math.sin(point.angle);
@@ -2513,31 +2513,31 @@ var RhythmDisk = function () {
         return point;
       });
 
-      this.strokeRippeLine();
-      this.strokeRippePoint();
+      this.strokerippleLine();
+      this.strokeripplePoint();
     }
   }, {
-    key: 'strokeRippeLine',
-    value: function strokeRippeLine() {
+    key: 'strokerippleLine',
+    value: function strokerippleLine() {
       var _this2 = this;
 
       var ctx = this.ctx;
-      this.rippeLines.forEach(function (line, index) {
+      this.rippleLines.forEach(function (line, index) {
 
         ctx.beginPath();
         ctx.arc(_this2.center, _this2.center, line.r, line.startAngle, line.startAngle + 2 * Math.PI - line.gapAngle * 2);
         ctx.strokeStyle = 'rgba(' + line.color.join(',') + ')';
-        ctx.lineWidth = _this2.params.rippeWidth;
+        ctx.lineWidth = _this2.params.rippleWidth;
         ctx.stroke();
       });
     }
   }, {
-    key: 'strokeRippePoint',
-    value: function strokeRippePoint() {
+    key: 'strokeripplePoint',
+    value: function strokeripplePoint() {
       var _this3 = this;
 
       var ctx = this.ctx;
-      this.rippePoints.forEach(function (point) {
+      this.ripplePoints.forEach(function (point) {
         ctx.beginPath();
         ctx.arc(point.x, point.y, _this3.params.pointRadius, 0, 2 * Math.PI);
         ctx.closePath();
@@ -2554,7 +2554,7 @@ var RhythmDisk = function () {
         this.initAtx();
       }
 
-      this.strokeRippe();
+      this.strokeripple();
       this.strokeCenterCircle();
       this.strokeBorder();
 
@@ -2577,15 +2577,15 @@ var RhythmDisk = function () {
     }
   }]);
 
-  return RhythmDisk;
+  return RhythmRipple;
 }();
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
-window.RhythmDisk = RhythmDisk;
+window.RhythmRipple = RhythmRipple;
 
-exports.default = RhythmDisk;
+exports.default = RhythmRipple;
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/src/rhythmDisk.js","/src")
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/src/rhythmRipple.js","/src")
 },{"./utils":7,"_process":4,"buffer":2,"timers":5}],7:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,setImmediate,clearImmediate,__filename,__dirname){
 "use strict";
