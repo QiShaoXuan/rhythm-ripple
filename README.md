@@ -9,6 +9,10 @@ https://qishaoxuan.github.io/rhythm-disk/
 ## 使用
 
 ```html
+<div id="canvas-container"></div>
+<audio src="./asset/LiquorWhisper.mp3" controls cover='./asset/cover.jpg' id="audio"></audio>
+
+
 <script src="..../rhythmDisk.js"></script>
 ```
 

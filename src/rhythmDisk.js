@@ -250,3 +250,5 @@ class RhythmDisk {
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext
 window.RhythmDisk = RhythmDisk
+
+export default RhythmDisk

@@ -2293,6 +2293,10 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,setImmediate,clearImmediate,__filename,__dirname){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _utils = require('./utils');
@@ -2578,6 +2582,8 @@ var RhythmDisk = function () {
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
 window.RhythmDisk = RhythmDisk;
+
+exports.default = RhythmDisk;
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate,require("timers").clearImmediate,"/src/rhythmDisk.js","/src")
 },{"./utils":7,"_process":4,"buffer":2,"timers":5}],7:[function(require,module,exports){
