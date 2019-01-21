@@ -4,7 +4,9 @@
   "description": "https://qishaoxuan.github.io/rhythm-disk/",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "rhythm":"gulp default --c rhythm",
+    "ripple":"gulp default --c ripple"
   },
   "repository": {
     "type": "git",

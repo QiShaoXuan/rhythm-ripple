@@ -42,15 +42,13 @@
     font-size: 14px;
     color: #fff;
   }
-
-  .link {
+  .link{
     position: absolute;
     right: 15px;
     bottom: 15px;
     font-size: 14px;
     color: #fff;
   }
-
   @media screen and (max-width: 767px) {
     audio {
       left: 0;
@@ -63,14 +61,28 @@
 
 <div id="canvas-container"></div>
 
+<audio src="./asset/LiquorWhisper.mp3" controls
+  preload="auto" autoplay
+  cover='./asset/cover.jpg' id="audio"></audio>
+
+<a href="https://github.com/QiShaoXuan/rhythm-disk" class="link">GITHUB ==></a>
+<div class="copyright">Liquor Whisper - 王以太</div>
+
+<img src="./asset/cover.jpg" style="display: none" alt="">
 </body>
 
-<script src="./dist/Ripple.js"></script>
+<script src="./dist/rhythmRipple.js"></script>
 <script>
 
   function detectDeviceType() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop'
   }
+
+  const audio = document.querySelector('#audio')
+
+  document.body.addEventListener('click', function () {
+    audio.play()
+  }, {once: true})
 
   const mobileOption = {
     size: window.innerWidth - 30,
@@ -79,7 +91,6 @@
     pointRadius: 4,
   }
 
-  const rd = new Ripple('#canvas-container', Object.assign({cover: './asset/Qi.png'}, detectDeviceType() === 'Mobile' ? mobileOption : {}))
-  rd.animate()
+  const rd = new RhythmRipple('#canvas-container', '#audio', detectDeviceType() === 'Mobile' ? mobileOption : {})
 </script>
 </html>

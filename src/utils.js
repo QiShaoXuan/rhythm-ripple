@@ -65,6 +65,10 @@ const utils = {
     return Math.PI / 180 * parseInt(Math.random() * 360, 10)
   },
 
+  randomInterval(min,max) {
+    return parseInt(Math.random() * (max - min + 1) + min, 10)
+  },
+
   addStyles(dom, styles) {
     if (dom) {
       for (let key in styles) {

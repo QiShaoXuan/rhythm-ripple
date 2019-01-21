@@ -4,11 +4,12 @@ import utils from './utils'
  * RhythmDisk
  * @constructor
  * @param {string | HtmlElement} container - 动画容器.
- * @param {string | HtmlElement} audioElement - 关联的 audio 标签
  * @param {object} [params] - 可自定义配置的参数
  *
+ * @param {string} [params.size = ''] - 封面图路径
  * @param {number} [params.size = 500] - 画布 canvas 的尺寸
  * @param {number} [params.radius = 100] - 封面图，中心圆的半径，小于零则为容器的百分比
+ * @param {number|Array} [params.randomInterval = [500,1500]] - 涟漪更新频率，数字为固定更新，数组则为在范围内的随机数
  * @param {number} [params.minInterval = 500] - 涟漪出现的最小频率（毫秒）
  * @param {string} [params.centerColor = '#ddd'] - 封面图位置的颜色（在没有封面图时显示）
  * @param {number} [params.borderWidth = 5] -  封面图边框的宽度
@@ -19,12 +20,13 @@ import utils from './utils'
  * @param {number} [params.rotateAngle = .3] -封面图每帧旋转的角度
  */
 
-class RhythmRipple {
-  constructor(container, audioElement, params = {}) {
+class Ripple {
+  constructor(container, params = {}) {
     const originParams = {
+      cover: '',
       size: 500,  // 画布 canvas 的尺寸
       radius: 100,  // 封面图，中心圆的半径，小于零则为容器的百分比
-      minInterval: 500,  // 涟漪出现的最小频率（毫秒）
+      interval: [500, 1500],  // 涟漪出现的最小频率（毫秒）
       centerColor: '#ddd',  // 封面图位置的颜色（在没有封面图时显示）
       borderWidth: 5,  //  封面图边框的宽度
       borderColor: '#aaa',  // 封面图边框的颜色
@@ -36,11 +38,9 @@ class RhythmRipple {
 
     this.container = typeof container === "string" ? document.querySelector(container) : container
 
-    this.audio = typeof audioElement === "string" ? document.querySelector(audioElement) : audioElement
-
     this.params = Object.assign(originParams, params)
 
-    this.cover = undefined  // 封面图，应当存在 audio 标签的 cover 属性中
+    this.cover = this.params.cover  // 封面图，应当存在 audio 标签的 cover 属性中
 
     this.radius = this.params.radius < 1 ? this.params.size * this.params.radius : this.params.radius
 
@@ -51,12 +51,10 @@ class RhythmRipple {
     this.rippleLines = []  // 存储涟漪圆环的半径
     this.ripplePoints = []  // 存储涟漪点距离中心点的距离
 
-    this.audioContext = null
-    this.analyser = null
-    this.source = null
     this.lastripple = 0
+    this.isRandom = Array.isArray(this.params.interval)
+    this.minInterval = this.isRandom ? utils.randomInterval(this.params.interval[0], this.params.interval[1]) : this.params.interval
 
-    this.initAudio()
     this.initCanvas()
   }
 
@@ -97,40 +95,6 @@ class RhythmRipple {
     this.strokeBorder()
   }
 
-  initAudio() {
-    const that = this
-
-    this.cover = this.audio.getAttribute('cover')
-
-    this.audio.addEventListener('playing', function () {
-      that.animate()
-    })
-
-    this.audio.addEventListener('pause', function () {
-      that.cancelAnimate()
-    })
-
-    this.audio.addEventListener('ended', function () {
-      that.cancelAnimate()
-      that.strokeCenterCircle()
-      that.strokeBorder()
-      that.cover.style.transform = 'rotate(0deg)'
-    })
-  }
-
-  initAtx() {
-    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-    this.analyser = this.audioContext.createAnalyser()
-    this.source = this.audioContext.createMediaElementSource(this.audio)
-    this.source.connect(this.analyser)
-    this.analyser.connect(this.audioContext.destination)
-
-    this.analyser.fftSize = 32
-    this.bufferLength = this.analyser.fftSize
-    this.dataArray = new Float32Array(this.bufferLength)
-  }
-
   strokeCenterCircle() {
     const ctx = this.ctx
     ctx.beginPath()
@@ -156,9 +120,11 @@ class RhythmRipple {
       this.ripplePoints.shift()
     }
 
-    this.analyser.getFloatTimeDomainData(this.dataArray)
+    if (this.rate - this.lastripple >= this.minInterval) {
+      if (this.isRandom) {
+        this.minInterval = utils.randomInterval(this.params.interval[0], this.params.interval[1])
+      }
 
-    if (this.rate - this.lastripple > this.params.minInterval && Math.max(...this.dataArray) > .3) {
       this.rippleLines.push({
         r: this.radius + this.params.borderWidth + this.params.rippleWidth / 2,
         color: utils.getRgbColor(this.params.rippleColor)
@@ -172,7 +138,6 @@ class RhythmRipple {
     }
 
     this.rippleLines = this.rippleLines.map((line, index) => {
-
       line.r += 1
       line.color[3] = (this.center - line.r) / (this.center - this.radius)
       line.gapAngle = Math.asin(this.params.pointRadius / 2 / line.r) * 2
@@ -221,10 +186,6 @@ class RhythmRipple {
   animate() {
     this.ctx.clearRect(0, 0, this.params.size, this.params.size)
 
-    if (!this.audioContext) {
-      this.initAtx()
-    }
-
     this.strokeripple()
     this.strokeCenterCircle()
     this.strokeBorder()
@@ -246,8 +207,12 @@ class RhythmRipple {
   cancelAnimate() {
     cancelAnimationFrame(this.frame)
   }
+
+  setCover(src) {
+    this.cover.setAttribute('src', src)
+  }
 }
 
-window.RhythmRipple = RhythmRipple
+window.Ripple = Ripple
 
-export default RhythmRipple
+export default Ripple
