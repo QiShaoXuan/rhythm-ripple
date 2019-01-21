@@ -40,7 +40,7 @@ class Ripple {
 
     this.params = Object.assign(originParams, params)
 
-    this.cover = this.params.cover  // 封面图，应当存在 audio 标签的 cover 属性中
+    this.cover = this.params.cover
 
     this.radius = this.params.radius < 1 ? this.params.size * this.params.radius : this.params.radius
 
@@ -116,7 +116,7 @@ class Ripple {
     ctx.stroke()
   }
 
-  strokeripple() {
+  strokeRipple() {
     if (this.rippleLines[0] > this.params.size) {
       this.rippleLines.shift()
       this.ripplePoints.shift()
@@ -158,11 +158,11 @@ class Ripple {
       return point
     })
 
-    this.strokerippleLine()
-    this.strokeripplePoint()
+    this.strokeRippleLine()
+    this.strokeRipplePoint()
   }
 
-  strokerippleLine() {
+  strokeRippleLine() {
     const ctx = this.ctx
     this.rippleLines.forEach((line, index) => {
 
@@ -174,7 +174,7 @@ class Ripple {
     })
   }
 
-  strokeripplePoint() {
+  strokeRipplePoint() {
     const ctx = this.ctx
     this.ripplePoints.forEach((point) => {
       ctx.beginPath()
@@ -188,22 +188,23 @@ class Ripple {
   animate() {
     this.ctx.clearRect(0, 0, this.params.size, this.params.size)
 
-    this.strokeripple()
-    this.strokeCenterCircle()
+    this.strokeRipple()
+
     this.strokeBorder()
 
     if (this.cover) {
       this.rotate += this.params.rotateAngle
       this.cover.style.transform = `rotate(${this.rotate}deg)`
+    }else{
+      this.strokeCenterCircle()
     }
 
     this.rate += 16.7
 
-    var that = this;
+    var that = this
     this.frame = requestAnimationFrame(function () {
       that.animate()
     })
-
   }
 
   cancelAnimate() {
