@@ -10,6 +10,17 @@ https://qishaoxuan.github.io/rhythm-ripple/
 ### rhythm with music
 https://qishaoxuan.github.io/rhythm-ripple/rhythm.html
 
+## View in local
+```bash
+  git clone https://github.com/QiShaoXuan/rhythm-ripple.git
+  cd rhythm-ripple
+  npm install
+  
+  npm run rhythm 
+  // OR
+  npm run ripple
+```
+
 ## Notice
 
 鉴于 audiocontext 的兼容性问题 safari 无法实时获取到音乐数据（有解决的大神望告知），所以将依赖 audio 属性的动画改为随机（或固定）频率出现
