@@ -10,6 +10,9 @@ https://qishaoxuan.github.io/rhythm-ripple/
 ### rhythm with music
 https://qishaoxuan.github.io/rhythm-ripple/rhythm.html
 
+### OR
+https://qishaoxuan.github.io/css_tricks/ripple/
+
 ## View in local
 ```bash
   git clone https://github.com/QiShaoXuan/rhythm-ripple.git
