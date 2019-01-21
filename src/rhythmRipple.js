@@ -71,7 +71,9 @@ class RhythmRipple {
 
     const containerStyle = {
       'position': 'relative',
-      'overflow': 'hidden'
+      'overflow': 'hidden',
+      'width':`${this.params.size}px`,
+      'height':`${this.params.size}px`,
     }
     const canvasStyle = {
       'display': 'block',

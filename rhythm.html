@@ -21,11 +21,11 @@
     background: #303133;
   }
 
-  #canvas-container {
+  .container{
+    height:100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
   }
 
   audio {
@@ -58,8 +58,9 @@
   }
 </style>
 <body>
-
-<div id="canvas-container"></div>
+<div class="container">
+  <div id="canvas-container"></div>
+</div>
 
 <audio src="./asset/LiquorWhisper.mp3" controls
   preload="auto" autoplay

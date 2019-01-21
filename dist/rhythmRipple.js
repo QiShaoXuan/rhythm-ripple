@@ -2386,7 +2386,9 @@ var RhythmRipple = function () {
 
       var containerStyle = {
         'position': 'relative',
-        'overflow': 'hidden'
+        'overflow': 'hidden',
+        'width': this.params.size + 'px',
+        'height': this.params.size + 'px'
       };
       var canvasStyle = {
         'display': 'block',
@@ -2654,6 +2656,9 @@ var utils = {
   },
   randomAngle: function randomAngle() {
     return Math.PI / 180 * parseInt(Math.random() * 360, 10);
+  },
+  randomInterval: function randomInterval(min, max) {
+    return parseInt(Math.random() * (max - min + 1) + min, 10);
   },
   addStyles: function addStyles(dom, styles) {
     if (dom) {
