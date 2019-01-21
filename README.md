@@ -4,7 +4,11 @@
 
 ## View online
 
+### just animate 
 https://qishaoxuan.github.io/rhythm-ripple/
+
+### rhythm with music
+https://qishaoxuan.github.io/rhythm-ripple/rhythm.html
 
 ## Notice
 
