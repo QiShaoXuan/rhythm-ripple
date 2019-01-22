@@ -1,5 +1,4 @@
-# 一个动画效果
-
+# 一个动画
 ## 先看效果
 
 [纯动画效果](https://qishaoxuan.github.io/rhythm-ripple/)
@@ -255,17 +254,25 @@ class Ripple{
 
 但是，可能是 `audiocontext` 的兼容问题，在 safari 中，无法实时获取到音频信息，如果有大神知晓，望不吝赐教。
 
-所以这部分的实现并没有什么好讲的了，有兴趣的可以直接查看 [源码](https://github.com/QiShaoXuan/rhythm-disk) 及 [实现](https://qishaoxuan.github.io/rhythm-ripple/rhythm.html)
+所以这部分的实现并没有什么好讲的了，有兴趣的可以直接查看 [源码](https://github.com/QiShaoXuan/rhythm-ripple/blob/master/src/rhythmRipple.js) 及 [实现](https://qishaoxuan.github.io/rhythm-ripple/rhythm.html)
 
 ## 写在最后
 
 上述动画的实现的确并不复杂，但是在实现的过程中，可能考虑到的更多的是如何组织代码，如何设计接口（怎么方便使用，增加定制度，减少操作度）。这些东西在写上面教程的时候轻猫淡写，一笔带过或者压根没提过，但只有在自己写时才能体会到切实的需要，所以，如果你能看到这里，不妨放下刚才看到的代码实现，只看效果，自己也来写一个（带音乐的）这样的动画，毕竟，我们不缺少发现简单的眼睛，缺少的可能是完美简单的手。
 
 
+## 一些其他项目
 
+我觉得挺好但好像并没人知道...
 
+[css tricks](https://qishaoxuan.github.io/css_tricks/)
+
+[js tricks](https://qishaoxuan.github.io/js_tricks/)
+
+[animate_resume](https://github.com/QiShaoXuan/animate_resume_ts)
 
 ## 参考
 
 > https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Visualizations_with_Web_Audio_API
+
 > https://developer.mozilla.org/zh-CN/docs/Web/Guide/Events/Media_events

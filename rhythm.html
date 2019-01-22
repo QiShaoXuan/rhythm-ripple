@@ -56,20 +56,28 @@
       margin: auto;
     }
   }
+  .body{
+    height:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
 </style>
 <body>
-<div class="container">
-  <div id="canvas-container"></div>
+<div class="body">
+  <div class="container">
+    <div id="canvas-container"></div>
+  </div>
+
+  <audio src="./asset/LiquorWhisper.mp3" controls
+    preload="auto" autoplay
+    cover='./asset/cover.jpg' id="audio"></audio>
+
+  <a href="https://github.com/QiShaoXuan/rhythm-disk" class="link">GITHUB ==></a>
+  <div class="copyright">Liquor Whisper - 王以太</div>
 </div>
 
-<audio src="./asset/LiquorWhisper.mp3" controls
-  preload="auto" autoplay
-  cover='./asset/cover.jpg' id="audio"></audio>
-
-<a href="https://github.com/QiShaoXuan/rhythm-disk" class="link">GITHUB ==></a>
-<div class="copyright">Liquor Whisper - 王以太</div>
-
-<img src="./asset/cover.jpg" style="display: none" alt="">
 </body>
 
 <script src="./dist/rhythmRipple.js"></script>

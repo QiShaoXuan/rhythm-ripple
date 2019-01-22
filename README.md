@@ -2,6 +2,9 @@
 
 仿照网易云音乐 app 中音乐播放动画
 
+## 教程 
+
+[又双叒叕是一个 canvas 动画](https://juejin.im/post/5c460109e51d4505171c7001)
 ## View online
 
 ### just animate 
