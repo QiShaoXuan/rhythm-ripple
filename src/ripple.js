@@ -117,7 +117,7 @@ class Ripple {
   }
 
   strokeRipple() {
-    if (this.rippleLines[0] > this.params.size) {
+    if (this.rippleLines[0] && this.rippleLines[0].r > this.params.size) {
       this.rippleLines.shift()
       this.ripplePoints.shift()
     }
